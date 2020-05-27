@@ -9,7 +9,7 @@ public class FPSCharacterController : MonoBehaviour
     public FixedTouchField touchField;
     float xRotataion = 0f;
 
-    [Range(1f, 20f)]
+    [Range(0.1f, 1f)]
     public float sensitivity=1.0f;
     public float movementSpeed=3;
     // Start is called before the first frame update
@@ -25,11 +25,10 @@ public class FPSCharacterController : MonoBehaviour
 
     void RotationMov()
     {
-        xRotataion -= touchField.TouchDist.y * sensitivity* Time.deltaTime;
+        xRotataion -= touchField.TouchDist.y *sensitivity;
         xRotataion = Mathf.Clamp(xRotataion, -90.0f, 40f);
-        var r = Quaternion.Euler(xRotataion, 0, 0);
-        Camera.main.transform.rotation = Quaternion.Slerp(Camera.main.transform.rotation, r, sensitivity);
-        transform.Rotate(Vector3.up * (touchField.TouchDist.x * sensitivity*Time.deltaTime));
+        Camera.main.transform.localRotation= Quaternion.Euler(xRotataion, 0, 0);
+        transform.Rotate(Vector3.up* touchField.TouchDist.x*sensitivity);
     }
 
     void MoveCharacter()
